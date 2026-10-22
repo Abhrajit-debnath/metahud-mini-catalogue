@@ -17,9 +17,9 @@ datasource db {
 model Product {
   id          String   @id @default(cuid())
   name        String
-  description String
+  description String?
   imageUrl    String?
-  category    String?
+  category    String
   price       Float
   isAvailable  Boolean  @default(true)
   createdAt   DateTime @default(now())
