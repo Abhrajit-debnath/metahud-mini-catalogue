@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
       setErrorMessage(null);
 
       const url = query.trim()
-        ? `/api/products?q=${encodeURIComponent(query.trim())}`
+        ? `/api/products?all=true&q=${encodeURIComponent(query.trim())}`
         : "/api/products";
 
       const data: Product[] = await apiClient.get(url);
