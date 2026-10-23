@@ -44,9 +44,11 @@ export default function Home() {
             </Title>
 
             <Text
-              size="xl"
+              size="lg"
               c="dimmed"
-              className="max-w-2xl mx-auto mb-10 leading-relaxed"
+              ta="center"
+              py={10}
+              className="leading-relaxed"
             >
               A full-stack product management platform built with Next.js,
               PostgreSQL, Prisma, and Mantine UI.

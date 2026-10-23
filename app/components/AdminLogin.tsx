@@ -29,8 +29,8 @@ export default function LoginForm() {
 
   const form = useForm({
     initialValues: {
-      email: "admin@metahud.co",
-      password: "metahud123",
+      email: "",
+      password: "",
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email address"),
@@ -91,7 +91,7 @@ export default function LoginForm() {
       )}
 
       {/* Demo Credentials Hint Box */}
-      <div className="p-3 mb-6 rounded-lg bg-gray-50 border border-gray-200 text-xs">
+      {/* <div className="p-3 mb-6 rounded-lg bg-gray-50 border border-gray-200 text-xs">
         <div className="flex items-center gap-1.5 font-semibold text-gray-700 mb-1">
           <IconKey size={14} className="text-blue-600" />
           <span>Demo Admin Credentials:</span>
@@ -101,7 +101,7 @@ export default function LoginForm() {
           <br />
           Password: <span className="text-blue-600">metahud123</span>
         </div>
-      </div>
+      </div> */}
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack gap="md">
