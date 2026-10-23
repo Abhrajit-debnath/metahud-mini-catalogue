@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const all = searchParams.get('all') === 'true';
 
     const where: Record<string, unknown> = {
-        ... { isAvailable: true },
+        ... (all ? {} : { isAvailable: true }),
         ...(query ? { name: { contains: query, mode: 'insensitive' } } : {}),
         ...(category && category !== 'All' ? { category: { equals: category, mode: 'insensitive' } } : {}),
     };
