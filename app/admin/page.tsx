@@ -82,14 +82,14 @@ export default function AdminDashboardPage() {
 
  
   // Fetch products 
-  const fetchProducts = useCallback(async (query = "", category = "") => {
+  const fetchProducts = useCallback(async (query = "",) => {
     try {
       setLoading(true);
       setErrorMessage(null);
 
       const url = query.trim()
-        ? `/api/products?all=true&q=${encodeURIComponent(query.trim())}`
-        : "/api/products?all=true";
+        ? `/api/products?q=${encodeURIComponent(query.trim())}`
+        : "/api/products";
 
       const data: Product[] = await apiClient.get(url);
       setProducts(data || []);
@@ -103,7 +103,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchProducts(search, categoryFilter !== "All" ? categoryFilter : "");
+      fetchProducts(search);
     }, 300);
     return () => clearTimeout(timer);
   }, [search, fetchProducts]);
