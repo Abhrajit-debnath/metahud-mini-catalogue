@@ -45,8 +45,7 @@ export default function LoginForm() {
       setErrorMessage(null);
 
       await apiClient.post("/api/auth/login", values);
-      router.push("/admin");
-      router.refresh();
+      window.location.href = "/admin";
     } catch (err: any) {
       console.error("Login failed:", err);
       setErrorMessage(

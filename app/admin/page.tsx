@@ -112,11 +112,10 @@ export default function AdminDashboardPage() {
   const handleLogout = async () => {
     try {
       await apiClient.post("/api/auth/logout", {});
-      router.push("/admin/login");
-      router.refresh();
+      window.location.href = "/admin/login";
     } catch (err) {
       console.error("Logout error:", err);
-      router.push("/admin/login");
+      window.location.href = "/admin/login";
     }
   };
 
