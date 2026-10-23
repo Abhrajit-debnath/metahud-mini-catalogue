@@ -7,7 +7,7 @@ import { IconBuildingStore, IconUserShield } from "@tabler/icons-react";
 export default function Navbar() {
   return (
     <header className="border-b border-gray-200 bg-white/90 backdrop-blur sticky top-0 z-50">
-      <Container size="xl" className="h-16 flex items-center justify-between">
+      <Container size="xl" py={6} className=" flex items-center! justify-between!">
         <Link href="/" className="flex items-center gap-2 no-underline text-inherit">
           <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white">
             <IconBuildingStore size={22} />
@@ -24,7 +24,9 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <Group gap="sm">
+    <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-4 items-end sm:items-     
+  center">  
+          
           <Button
             component={Link}
             href="/products"
@@ -44,8 +46,8 @@ export default function Navbar() {
             leftSection={<IconUserShield size={16} />}
           >
             Admin Panel
-          </Button>
-        </Group>
+          </Button></div>
+      
       </Container>
     </header>
   );

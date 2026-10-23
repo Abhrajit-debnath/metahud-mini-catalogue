@@ -246,7 +246,7 @@ export default function AdminDashboardPage() {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
       {/* Admin Navbar */}
       <header className="border-b border-gray-200 bg-white sticky top-0 z-40">
-        <Container size="xl" className="h-16 flex items-center justify-between">
+        <Container size="xl" py={6} className=" flex items-center justify-between!">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 no-underline text-inherit">
               <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
@@ -260,8 +260,8 @@ export default function AdminDashboardPage() {
               Admin Portal
             </Badge>
           </div>
-
-          <Group gap="sm">
+<div className="flex flex-col sm:flex-row gap-1.5 sm:gap-4 items-end sm:items-     
+  center">  
             <Button
               component={Link}
               href="/products"
@@ -280,8 +280,8 @@ export default function AdminDashboardPage() {
               leftSection={<IconLogout size={16} />}
             >
               Sign Out
-            </Button>
-          </Group>
+            </Button></div>
+        
         </Container>
       </header>
 
