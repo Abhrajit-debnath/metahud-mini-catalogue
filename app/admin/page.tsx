@@ -82,24 +82,26 @@ export default function AdminDashboardPage() {
 
  
   // Fetch products 
-  const fetchProducts = useCallback(async (query = "",) => {
-    try {
-      setLoading(true);
-      setErrorMessage(null);
+  const fetchProducts = useCallback(async (query = "") => {
+  try {
+    setLoading(true);
+    setErrorMessage(null);
 
-      const url = query.trim()
-        ? `/api/products?all=true&q=${encodeURIComponent(query.trim())}`
-        : "/api/products";
+    const params = new URLSearchParams();
+    params.set('all', 'true');
+    if (query.trim()) params.set('q', query.trim());
 
-      const data: Product[] = await apiClient.get(url);
-      setProducts(data || []);
-    } catch (err: any) {
-      console.error("Failed to load admin products:", err);
-      setErrorMessage(err.message || "Failed to load products");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    const url = `/api/products?${params.toString()}`;
+
+    const data: Product[] = await apiClient.get(url);
+    setProducts(data || []);
+  } catch (err: any) {
+    console.error("Failed to load admin products:", err);
+    setErrorMessage(err.message || "Failed to load products");
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
