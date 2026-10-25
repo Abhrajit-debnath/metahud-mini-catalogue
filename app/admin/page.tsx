@@ -23,6 +23,7 @@ import {
   Alert,
   SimpleGrid,
   Menu,
+  FileButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {
@@ -38,6 +39,7 @@ import {
   IconEyeCheck,
   IconEyeOff,
   IconRefresh,
+  IconFileUpload,
 } from "@tabler/icons-react";
 import { Product } from "@/app/types/product.types";
 import { apiClient } from "@/lib/apiClient";
@@ -45,7 +47,7 @@ import { apiClient } from "@/lib/apiClient";
 export default function AdminDashboardPage() {
   const router = useRouter();
 
- 
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -80,28 +82,28 @@ export default function AdminDashboardPage() {
     },
   });
 
- 
+
   // Fetch products 
   const fetchProducts = useCallback(async (query = "") => {
-  try {
-    setLoading(true);
-    setErrorMessage(null);
+    try {
+      setLoading(true);
+      setErrorMessage(null);
 
-    const params = new URLSearchParams();
-    params.set('all', 'true');
-    if (query.trim()) params.set('q', query.trim());
+      const params = new URLSearchParams();
+      params.set('all', 'true');
+      if (query.trim()) params.set('q', query.trim());
 
-    const url = `/api/products?${params.toString()}`;
+      const url = `/api/products?${params.toString()}`;
 
-    const data: Product[] = await apiClient.get(url);
-    setProducts(data || []);
-  } catch (err: any) {
-    console.error("Failed to load admin products:", err);
-    setErrorMessage(err.message || "Failed to load products");
-  } finally {
-    setLoading(false);
-  }
-}, []);
+      const data: Product[] = await apiClient.get(url);
+      setProducts(data || []);
+    } catch (err: any) {
+      console.error("Failed to load admin products:", err);
+      setErrorMessage(err.message || "Failed to load products");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -165,7 +167,7 @@ export default function AdminDashboardPage() {
       };
 
       if (editingProduct) {
-    
+
         await apiClient.put(`/api/products/${editingProduct.id}`, payload);
         setSuccessMessage(`Product "${values.name}" updated successfully!`);
       } else {
@@ -242,6 +244,43 @@ export default function AdminDashboardPage() {
   const fallbackImage =
     "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&auto=format&fit=crop&q=60";
 
+
+
+
+    const handleFileUpload = async (file?: File | null) => {
+
+      if (!file) return;
+
+      console.log("Uploading file:", file);
+      setLoading(true);
+
+      try {
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response   =  await fetch("/api/products/bulk", {
+          method: "POST",
+          body: formData,
+      
+        });
+
+        if (response.ok) {
+
+           fetchProducts();
+
+        }
+
+        console.log("Bulk upload response:", response);
+        
+      } catch (error) {
+        console.error("File upload failed:", error);
+      }finally {
+        setLoading(false);
+      }
+
+
+    }
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
       {/* Admin Navbar */}
@@ -260,8 +299,8 @@ export default function AdminDashboardPage() {
               Admin Portal
             </Badge>
           </div>
-<div className="flex flex-col sm:flex-row gap-1.5 sm:gap-4 items-end sm:items-     
-  center">  
+          <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-4 items-end sm:items-     
+  center">
             <Button
               component={Link}
               href="/products"
@@ -281,7 +320,7 @@ export default function AdminDashboardPage() {
             >
               Sign Out
             </Button></div>
-        
+
         </Container>
       </header>
 
@@ -310,6 +349,12 @@ export default function AdminDashboardPage() {
               >
                 Refresh
               </Button>
+
+              <FileButton onChange={(file) => handleFileUpload(file)} accept=".csv">
+            
+                {(props) =>  loading ? <Button className="" {...props}> <div className="pr-2"></div> Uploading...</Button> : <Button className="" {...props}> <div className="pr-2"><IconFileUpload size={16} className="" /></div>
+                  Bulk Product Upload</Button>}
+              </FileButton>
               <Button
                 onClick={openAddModal}
                 color="blue"
@@ -415,7 +460,7 @@ export default function AdminDashboardPage() {
                 radius="md"
               />
 
-           
+
             </div>
           </Card>
 
@@ -434,7 +479,7 @@ export default function AdminDashboardPage() {
                   No products found
                 </Text>
                 <Text size="sm" c="dimmed" mb="md">
-                  {search 
+                  {search
                     ? "Try adjusting your search query."
                     : "Your catalogue is currently empty."}
                 </Text>
@@ -458,9 +503,9 @@ export default function AdminDashboardPage() {
                   <Table.Tbody>
                     {products.map((product) => (
                       <Table.Tr key={product.id}>
-                    
+
                         <Table.Td>
-      
+
                           <img
                             src={product.imageUrl || fallbackImage}
                             alt={product.name}
